@@ -33,7 +33,18 @@ public class AlunoService {
                 .anyMatch(a -> a.getEmail().equalsIgnoreCase(aluno.getEmail()))) {
             System.out.println("E-mail já cadastrado.");
             return;
+        }/*
+        boolean emailDuplicado = false;
+        for(Aluno a : repository.listar()){
+            if(a.getEmail().equalsIgnoreCase(aluno.getEmail())){
+               emailDuplicado = true;
+                break;
+            }
         }
+        if(emailDuplicado == true){
+            System.out.println("E-mail já cadastrado.");
+            return;
+        }*/
 
         aluno.setId(proximoId);
         proximoId++;
@@ -49,7 +60,6 @@ public class AlunoService {
     public Aluno buscarPorId(Long id){
         Aluno aluno = repository.buscarPorId(id);
         if (aluno == null){
-            System.out.println("");
             return null;
         }
         return aluno;
@@ -71,18 +81,24 @@ public class AlunoService {
             System.out.println("Aluno não encontrado.");
             return;
         }
-        if (aluno.getNome() == null || aluno.getNome().isBlank()) {
+        if (alunoEditado.getNome() == null || alunoEditado.getNome().isBlank()) {
             System.out.println("O nome do aluno é obrigatório.");
             return;
         }
 
-        if (aluno.getEmail() == null || aluno.getEmail().isBlank()) {
+        if (alunoEditado.getEmail() == null || alunoEditado.getEmail().isBlank()) {
             System.out.println("O e-mail do aluno é obrigatório.");
             return;
         }
 
-        if (!aluno.getEmail().contains("@")) {
+        if (!alunoEditado.getEmail().contains("@")) {
             System.out.println("E-mail inválido.");
+            return;
+        }
+
+        if (repository.listar().stream()
+                .anyMatch(a -> a.getEmail().equalsIgnoreCase(alunoEditado.getEmail()))) {
+            System.out.println("E-mail já cadastrado.");
             return;
         }
         repository.atualizar(alunoEditado);
