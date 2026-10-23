@@ -33,7 +33,7 @@ public class AlunoService {
                 .anyMatch(a -> a.getEmail().equalsIgnoreCase(aluno.getEmail()))) {
             System.out.println("E-mail já cadastrado.");
             return;
-        }/*
+        }
         boolean emailDuplicado = false;
         for(Aluno a : repository.listar()){
             if(a.getEmail().equalsIgnoreCase(aluno.getEmail())){
@@ -96,8 +96,11 @@ public class AlunoService {
             return;
         }
 
-        if (repository.listar().stream()
-                .anyMatch(a -> a.getEmail().equalsIgnoreCase(alunoEditado.getEmail()))) {
+        boolean emailDeOutroAluno = repository.listar().stream()
+            .anyMatch(a -> !a.getId().equals(alunoEditado.getId())
+                    && a.getEmail().equalsIgnoreCase(alunoEditado.getEmail()));
+
+        if (emailDeOutroAluno) {
             System.out.println("E-mail já cadastrado.");
             return;
         }
