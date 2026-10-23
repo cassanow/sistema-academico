@@ -44,7 +44,7 @@ public class AlunoService {
         if(emailDuplicado == true){
             System.out.println("E-mail já cadastrado.");
             return;
-        }*/
+        }
 
         aluno.setId(proximoId);
         proximoId++;
